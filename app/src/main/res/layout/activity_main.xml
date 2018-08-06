@@ -6,11 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lv"
+        android:layout_below="@id/btnReadJson"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnReadJson"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:text="@string/ReadJson"/>
 
 </RelativeLayout>

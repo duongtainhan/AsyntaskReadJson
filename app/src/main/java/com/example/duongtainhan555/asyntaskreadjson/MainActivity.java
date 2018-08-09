@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         btnReadJson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ReadJson().execute("https://khoapham.vn/KhoaPhamTraining/json/tien/demo4.json");
+                new ReadJson().execute("https://khoapham.vn/KhoaPhamTraining/json/tien/demo3.json");
             }
         });
     }
@@ -59,21 +59,29 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            try {
-                JSONArray jsonArray = new JSONArray(s);
-                for(int i=0;i<jsonArray.length();i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    String khoahoc = jsonObject.getString("khoahoc");
-                    String hocphi = jsonObject.getString("hocphi");
-                    arrayCourse.add(khoahoc+" - "+hocphi);
-                }
-                adapter.notifyDataSetChanged();
+            arrayCourse.clear();
+            getStringObject(s,"en");
+            getStringObject(s,"vn");
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Toast.makeText(MainActivity.this,s,Toast.LENGTH_SHORT).show();
             super.onPostExecute(s);
+        }
+    }
+    private void getStringObject(String s, String key)
+    {
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            JSONObject object_language = jsonObject.getJSONObject("language");
+            JSONObject language_en = object_language.getJSONObject(key);
+            String name = language_en.getString("name");
+            String address = language_en.getString("address");
+            String course1 = language_en.getString("course1");
+            String course2 = language_en.getString("course2");
+            String course3 = language_en.getString("course3");
+            arrayCourse.add(name+"--"+address+"--"+course1+"--"+course2+"--"+course3);
+            adapter.notifyDataSetChanged();
+            //Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
     private String docNoiDung_Tu_URL(String theUrl){
